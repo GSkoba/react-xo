@@ -1,24 +1,52 @@
 import * as React from 'react';
 import Square from './Square';
 
-export default class Board extends React.Component {
+interface IState {
+    arr : Array<string>;
+}
+
+interface Props {
+
+}
+
+export default class Board extends React.Component<Props, IState> {
+    constructor(props : Props) {
+        super(props);
+        this.state = {
+            arr : Array(9).fill('')
+        }
+    }
+
+    rendeItem(i : number) {
+        return <Square 
+                value={this.state.arr[i]}
+                setXO={() => this.setXO(i)}
+                />
+    }
+
+    setXO(i : number) {
+        const arr = this.state.arr.slice();
+        arr[i] = 'X';
+        this.setState({arr:arr});
+    }
+
     render() {
         return (
             <>
                 <div className="board-row">
-                    <Square value={1}/>
-                    <Square value={2}/>
-                    <Square value={3}/>
+                    {this.rendeItem(1)}
+                    {this.rendeItem(2)}
+                    {this.rendeItem(3)}
                 </div> 
                 <div className="board-row">
-                    <Square value={4}/>
-                    <Square value={5}/>
-                    <Square value={6}/>
+                    {this.rendeItem(4)}
+                    {this.rendeItem(5)}
+                    {this.rendeItem(6)}
                 </div> 
                 <div className="board-row">
-                    <Square value={7}/>
-                    <Square value={8}/>
-                    <Square value={9}/>
+                    {this.rendeItem(7)}
+                    {this.rendeItem(8)}
+                    {this.rendeItem(9)}
                 </div> 
             </>
         );

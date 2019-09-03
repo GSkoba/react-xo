@@ -5,7 +5,8 @@ interface IState {
 }
 
 interface Props {
-    value : number;
+    value : string;
+    setXO : () => void;
 }
 
 export default class Square extends React.Component<Props, IState> {
@@ -19,8 +20,8 @@ export default class Square extends React.Component<Props, IState> {
     render() {
         return (
             <button className="square"
-                    onClick={() => this.setState({value: "X"})}>
-                {this.state.value}
+                    onClick={() => this.props.setXO()}>
+                {this.props.value}
             </button>
         );
     }
