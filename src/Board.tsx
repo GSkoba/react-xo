@@ -4,6 +4,7 @@ import Square from './Square';
 interface IState {
     arr : Array<string>;
     xIsNext : boolean;
+    error : boolean;
 }
 
 interface Props {
@@ -15,7 +16,8 @@ export default class Board extends React.Component<Props, IState> {
         super(props);
         this.state = {
             arr : Array(9).fill(''),
-            xIsNext : true
+            xIsNext : true,
+            error : false
         }
     }
 
@@ -28,19 +30,29 @@ export default class Board extends React.Component<Props, IState> {
 
     setXO(i : number) {
         const arr = this.state.arr.slice();
-        const xIsNext = this.state.xIsNext;
-        arr[i] = xIsNext ? 'X' : 'O';
+        let xIsNext = this.state.xIsNext;
+        let error = this.state.error;
+    
+        if (arr[i] === 'X' || arr[i] === 'O'){
+            error = true;
+        } else {
+            arr[i] = xIsNext ? 'X' : 'O';
+            xIsNext = !xIsNext;
+        }
         this.setState({
             arr:arr,
-            xIsNext:!xIsNext
+            xIsNext:xIsNext,
+            error: error
         });
     }
 
     render() {
         const status = 'Next move ' + (this.state.xIsNext ? 'X' : 'O'); 
+        const error = (this.state.error ? 'Error' : '');
         return (
             <>
                 <div className="status">{status}</div>
+                <div className="error">{error}</div>
                 <div className="board-row">
                     {this.rendeItem(1)}
                     {this.rendeItem(2)}
